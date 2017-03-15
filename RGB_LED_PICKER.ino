@@ -58,8 +58,6 @@ pinMode(pins[2],OUTPUT);
 
 pinMode(btn,INPUT);
 
-Serial.begin(9600);
-
 setLED();
 }
 
@@ -69,10 +67,6 @@ void loop() {
 
   if(colorSet0 && brightSet0 && colorSet1 && brightSet1 && flashSet && flashInt > 5){
     if(millis() - pMillis >= flashInt){
-//      Serial.print("NOW FLASHING");
-//      Serial.print("\n");
-//      Serial.print(flashInt);
-//      Serial.print("\n");
       lit = !lit;
       pMillis = millis();
     }
@@ -84,21 +78,15 @@ void loop() {
     }
   }
   else if(colorSet0 && brightSet0 && colorSet1 && brightSet1 && flashSet && flashInt == 5){
-    Serial.print("NOW STATIC");
-    Serial.print("\n");
     setRGB(storedRGB[0][0],storedRGB[0][1],storedRGB[0][2]);
   }
 
   if(digitalRead(btn) == LOW && !colorSet0 && !colorSet1 && !brightSet0){
-    Serial.print("CHOOSE COLOR 1");
-    Serial.print("\n");
     for(int c = 0; c <=7;){   
       if(pMillis + interval < millis()){
         if(digitalRead(btn) == HIGH){
           storeRGB(0,RGB[0],RGB[1],RGB[2]);
           colorSet0 = true;
-          Serial.print("COLOR 1 CHOSEN");
-          Serial.print("\n");
           setRGB(colors[7][0],colors[7][1],colors[7][2]);
           break;
         }
@@ -110,15 +98,11 @@ void loop() {
   }
 
     if(digitalRead(btn) == LOW && colorSet0 && !colorSet1 && brightSet0){
-    Serial.print("CHOOSE COLOR 2");
-    Serial.print("\n");
     for(int c = 0; c <=7;){   
       if(pMillis + interval < millis()){
         if(digitalRead(btn) == HIGH){
           storeRGB(1,RGB[0],RGB[1],RGB[2]);
           colorSet1 = true;
-          Serial.print("COLOR 2 CHOSEN");
-          Serial.print("\n");
           setRGB(colors[7][0],colors[7][1],colors[7][2]);
           break;
         }
@@ -131,13 +115,9 @@ void loop() {
 
 
   if(digitalRead(btn) == LOW && colorSet0 && !brightSet0){
-    Serial.print("CHOOSE BRIGHTNESS 1");
-    Serial.print("\n");
     for(float b = 0; b < 255 ;){
       if(pMillis + (interval/100) < millis()){
         if(digitalRead(btn) == HIGH){
-          Serial.print("BRIGHTNESS 1 CHOSEN");
-          Serial.print("\n");
           brightSet0 = true;
           setRGB(colors[7][0],colors[7][1],colors[7][2]);
           break;
@@ -160,13 +140,9 @@ void loop() {
   }
 
     if(digitalRead(btn) == LOW && colorSet0 && colorSet1 && brightSet0 && !brightSet1){
-    Serial.print("CHOOSE BRIGHTNESS 2");
-    Serial.print("\n");
     for(float b = 0; b < 255 ;){
       if(pMillis + (interval/100) < millis()){
         if(digitalRead(btn) == HIGH){
-          Serial.print("BRIGHTNESS 2 CHOSEN");
-          Serial.print("\n");
           brightSet1 = true;
           setRGB(colors[7][0],colors[7][1],colors[7][2]);
           break;
@@ -192,25 +168,15 @@ void loop() {
     if(digitalRead(btn) == LOW && colorSet0 && colorSet1 && brightSet0 && brightSet1 && !flashSet){
       
       if(!ask){
-        Serial.print("CHOOSE FLASH SPEED");
-        Serial.print("\n");
         ask = true;
       }
       pMillis = millis();
       while(millis() - pMillis <= 1500){
         if(digitalRead(btn) == HIGH){
-          Serial.print("FLASH SPEED SET");
-          Serial.print("\n");
-          Serial.print(flashInt);
-          Serial.print("\n");
           flashSet = true;
           break;
         }
         if(interval == 10){
-          Serial.print("FLASH SPEED SET");
-          Serial.print("\n");
-          Serial.print(flashInt);
-          Serial.print("\n");
           flashSet = true;
           break;
         }
